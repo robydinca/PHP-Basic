@@ -1,24 +1,23 @@
 <?php
-    if (isset($_POST['guardar'])) {
-        $nombre = htmlspecialchars($_POST['nombre']);
-        $direccion = htmlspecialchars($_POST['direccion']);
-        $jamonyqueso = htmlspecialchars($_POST['jamonyqueso']);
-        $cantidad_jamonyqueso = htmlspecialchars($_POST['cantidad_jamonyqueso']);
-        $napolitana = htmlspecialchars($_POST['napolitana']);
-        $cantidad_napolitana = htmlspecialchars($_POST['cantidad_napolitana']);
-        $mozzarella = htmlspecialchars($_POST['mozzarella']);
-        $cantidad_mozzarella = htmlspecialchars($_POST['cantidad_mozzarella']);
-        
-        $fp = fopen("datos.txt", "a");
-        $datos = date("d/m/Y H:i:s") . ";" . $nombre . ";" . $direccion . ";" . $jamonyqueso . ";" . $cantidad_jamonyqueso . ";" . $napolitana . ";" . $cantidad_napolitana . ";" . $mozzarella . ";" . $cantidad_mozzarella . "\n";
-        fwrite($fp, $datos);
-        fclose($fp);
+if (isset($_POST['guardar'])) {
+    $nombre = !empty($_POST['nombre']) ? $_POST['nombre'] : "no";
+    $direccion = !empty($_POST['direccion']) ? $_POST['direccion'] : "no";
+    $jamonyqueso = !empty($_POST['jamonyqueso']) ? $_POST['jamonyqueso'] : "no";
+    $cantidad_jamonyqueso = !empty($_POST['cantidad_jamonyqueso']) ? $_POST['cantidad_jamonyqueso'] : "no";
+    $napolitana = !empty($_POST['napolitana']) ? $_POST['napolitana'] : "no";
+    $cantidad_napolitana = !empty($_POST['cantidad_napolitana']) ? $_POST['cantidad_napolitana'] : "no";
+    $mozzarella = !empty($_POST['mozzarella']) ? $_POST['mozzarella'] : "no";
+    $cantidad_mozzarella = !empty($_POST['cantidad_mozzarella']) ? $_POST['cantidad_mozzarella'] : "no";
 
-        $mensaje = "Pedido guardado";
+    $fp = fopen("datos.txt", "a");
+    $datos = date("d/m/Y H:i:s") . ";" . $nombre . ";" . $direccion . ";" . $jamonyqueso . ";" . $cantidad_jamonyqueso . ";" . $napolitana . ";" . $cantidad_napolitana . ";" . $mozzarella . ";" . $cantidad_mozzarella . ";";
+    fwrite($fp, $datos);
+    fclose($fp);
 
-    }
-
+    $mensaje = "Pedido guardado";
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -55,6 +54,7 @@
     <?php
         if (isset($mensaje)) {
             echo $mensaje;
+            
         }
     ?>
 </body>
