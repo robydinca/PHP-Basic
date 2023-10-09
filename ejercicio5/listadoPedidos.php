@@ -26,7 +26,7 @@
             <th>Cantidad</th>
         </tr>
         <?php
-        for ($i=0; $i < count($arrayDatos); $i++) { 
+        for ($i=0; $i < count($arrayDatos)-1; $i++) { 
             if ($i % 9 == 0) {
                 echo "<tr>";
             }
