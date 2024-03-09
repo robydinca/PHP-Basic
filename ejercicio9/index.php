@@ -1,3 +1,16 @@
+<?php
+require_once "Seguridad.php";
+
+$seguridad = new Seguridad();
+
+if (!$seguridad->estaAutenticado()) {
+    header("Location: login.php");
+    exit;
+}
+
+$rolUsuario = $seguridad->obtenerRol();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,15 +28,18 @@
 
 <body>
     <?php
-
     if (!file_exists("config.php")) {
         header("Location: install.php");
-    } else {
+    } else if ($rolUsuario === 'admin') {
         require_once "./cabecera.php";
-
         echo $cabecera;
+    } elseif ($rolUsuario === 'bibliotecario') {
+        require_once "./cabeceraBibliotecario.php";
+        echo $cabeceraBibliotecario;
+    } else {
+        require_once "./cabeceraUser.php";
+        echo $cabeceraUser;
     }
-
     ?>
     <main style="height:80vh; display:flex; justify-content:center; margin-right:140px; margin-top:20px;">
         <canvas id="miGrafico"></canvas>

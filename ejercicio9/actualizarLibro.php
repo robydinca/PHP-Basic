@@ -1,12 +1,22 @@
 <?php
 require_once "./config.php";
 require_once "Libros.php";
+require_once "Autores.php";
+require_once "Seguridad.php";
 
 $conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT);
 if ($conexion->connect_errno) {
     die("Error de conexión: " . $conexion->connect_error);
 }
+
+$seguridad = new Seguridad();
+if (!$seguridad->tienePermiso('admin') && !$seguridad->tienePermiso('bibliotecario')) {
+    header("Location: ./index.php");
+    exit();
+}
+
 $mensaje = ''; 
+$mensajeImagen = '';
 $libros = new libros($conexion);
 $datosLibro = $libros->consultarLibro($_GET['idLibro']);
 
@@ -40,10 +50,18 @@ if (isset($_POST['Actualizar'])) {
 </head>
 
 <body>
-    <?php
-    require_once "./cabecera.php";
-
-    echo $cabecera;
+<?php
+$rolUsuario = $seguridad->obtenerRol();
+    if ($rolUsuario === 'admin') {
+        require_once "./cabecera.php";
+        echo $cabecera;
+    } elseif ($rolUsuario === 'bibliotecario') {
+        require_once "./cabeceraBibliotecario.php";
+        echo $cabeceraBibliotecario;
+    } else {
+        require_once "./cabeceraUser.php";
+        echo $cabeceraUser;
+    }
     ?>
     <form method="POST" action="">
         <input type="hidden" name="idLibro" value="<?php echo $_GET['idLibro']; ?>">

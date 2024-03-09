@@ -7,6 +7,10 @@ body {
   padding: 40px;
 }
 
+div#mensaje{
+  color:white;
+}
+
 h1 {
   font-size: 30px;
   margin-bottom: 40px;

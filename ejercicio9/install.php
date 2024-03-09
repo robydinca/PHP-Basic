@@ -32,9 +32,10 @@ if (isset($_POST["host"]) && isset($_POST["usuario"]) && isset($_POST["password"
       "CREATE TABLE IF NOT EXISTS usuarios (
       nombre VARCHAR(50) NOT NULL,
       apellidos VARCHAR(50) NOT NULL,
+      salt VARCHAR(20) NOT NULL,
       login VARCHAR(50) NOT NULL PRIMARY KEY,
       password VARCHAR(512) NOT NULL,
-      rol enum('admin', 'user') NOT NULL)";
+      rol enum('admin', 'bibliotecario', 'user') NOT NULL)";
 
     $consultas[] = 
       "CREATE TABLE IF NOT EXISTS autores (
@@ -56,7 +57,7 @@ if (isset($_POST["host"]) && isset($_POST["usuario"]) && isset($_POST["password"
 
     foreach ($consultas as $consulta) {
       if ($conexion->query($consulta) === TRUE) {
-        header("Location: registro.php");
+        header("Location: registroAdmin.php");
       } else {
         echo "Error al crear la tabla: " . $conexion->error . "<br>";
       }

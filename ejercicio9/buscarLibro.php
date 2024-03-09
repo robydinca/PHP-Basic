@@ -3,6 +3,7 @@ require_once "./config.php";
 require_once "Libros.php";
 require_once "Autores.php";
 
+
 $conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT);
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
@@ -37,9 +38,19 @@ if (isset($_GET['borrar'])) {
 
 <body>
 <?php
-    require_once "./cabecera.php";
-
-    echo $cabecera;
+require_once "Seguridad.php";
+$seguridad = new Seguridad();
+$rolUsuario = $seguridad->obtenerRol();
+    if ($rolUsuario === 'admin') {
+        require_once "./cabecera.php";
+        echo $cabecera;
+    } elseif ($rolUsuario === 'bibliotecario') {
+        require_once "./cabeceraBibliotecario.php";
+        echo $cabeceraBibliotecario;
+    } else {
+        require_once "./cabeceraUser.php";
+        echo $cabeceraUser;
+    }
     ?>
 
     <main>

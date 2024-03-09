@@ -1,5 +1,5 @@
 <?php
-$cabecera = <<<EX
+$cabeceraBibliotecario = <<<EX
 <header>
   <img src="logo.png" alt="logo">
   <h1>Panel de control biblioteca</h1>
@@ -18,7 +18,6 @@ $cabecera = <<<EX
       <li><a href="insertarLibro.php">Insertar Libro</a></li>
       <li><a href="insertarAutor.php">Insertar Autor</a></li>
       <li><a href="buscarLibro.php">Buscar libro</a></li>
-      <li><a href="gestionUsuarios.php">Administrar Usuarios</a></li>
   </ul>
 </nav>
 EX;

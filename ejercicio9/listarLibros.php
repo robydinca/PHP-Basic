@@ -2,9 +2,17 @@
 require_once "config.php";
 require_once "Libros.php";
 require_once "Autores.php";
+require_once "Seguridad.php";
 
 $mensaje = "";
 $conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT) or die("Error de conexión: " . $conexion->connect_error);
+
+$seguridad = new Seguridad();
+if (!$seguridad->tienePermiso('admin') && !$seguridad->tienePermiso('bibliotecario')) {
+    header("Location: ./index.php");
+    exit();
+}
+
 
 $libros = new Libros($conexion);
 $todosLosLibros = $libros->consultarLibro();
@@ -33,10 +41,18 @@ if (isset($_GET['borrar'])) {
 </head>
 
 <body>
-    <?php
-    require_once "./cabecera.php";
-
-    echo $cabecera;
+<?php
+$rolUsuario = $seguridad->obtenerRol();
+    if ($rolUsuario === 'admin') {
+        require_once "./cabecera.php";
+        echo $cabecera;
+    } elseif ($rolUsuario === 'bibliotecario') {
+        require_once "./cabeceraBibliotecario.php";
+        echo $cabeceraBibliotecario;
+    } else {
+        require_once "./cabeceraUser.php";
+        echo $cabeceraUser;
+    }
     ?>
 
     <main>

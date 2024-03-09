@@ -1,11 +1,18 @@
 <?php
 require_once "config.php";
 require_once "Autores.php";
+require_once "Seguridad.php";
 
 $conexion = new mysqli(HOST, USER, PASSWORD, DB, PORT);
 
 if ($conexion->connect_errno) {
     die("Error de conexión: " . $conexion->connect_error);
+}
+
+$seguridad = new Seguridad();
+if (!$seguridad->tienePermiso('admin') && !$seguridad->tienePermiso('bibliotecario')) {
+    header("Location: ./index.php");
+    exit();
 }
 
 $mensaje = ''; 
@@ -42,10 +49,18 @@ $conexion->close();
 </head>
 
 <body>
-    <?php
-    require_once "./cabecera.php";
-
-    echo $cabecera;
+<?php
+$rolUsuario = $seguridad->obtenerRol();
+    if ($rolUsuario === 'admin') {
+        require_once "./cabecera.php";
+        echo $cabecera;
+    } elseif ($rolUsuario === 'bibliotecario') {
+        require_once "./cabeceraBibliotecario.php";
+        echo $cabeceraBibliotecario;
+    } else {
+        require_once "./cabeceraUser.php";
+        echo $cabeceraUser;
+    }
     ?>
     <main>
         <h2>Insertar Autor</h2>
